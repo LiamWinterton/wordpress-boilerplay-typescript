@@ -1,0 +1,38 @@
+{
+	"name": "wordpress-boilerplate-typescript",
+	"version": "1.0.0",
+	"description": "Easy to use TypeScript boilerplate to get around the tedious webpack setup.",
+	"main": "index.js",
+	"scripts": {
+		"download-wordpress": "gulp download-wordpress",
+		"build": "webpack-dev-server",
+		"build:prod": "webpack -p"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/LiamWinterton/wordpress-boilerplate-typescript.git"
+	},
+	"author": "Liam Winterton - liam.winterton.dev@gmail.com",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/LiamWinterton/wordpress-boilerplate-typescript/issues"
+	},
+	"homepage": "https://github.com/LiamWinterton/wordpress-boilerplate-typescript#readme",
+	"devDependencies": {
+		"css-loader": "^0.28.7",
+		"extract-text-webpack-plugin": "^3.0.2",
+		"gulp": "^3.9.1",
+		"gulp-download": "0.0.1",
+		"img-loader": "^2.0.0",
+		"node-sass": "^4.7.2",
+		"postcss-loader": "^2.0.9",
+		"resolve-url-loader": "^2.2.0",
+		"run-sequence": "^2.2.0",
+		"sass-loader": "^6.0.6",
+		"ts-loader": "^3.5.0",
+		"typescript": "^2.8.3",
+		"url-loader": "^0.6.2",
+		"webpack": "^3.8.1",
+		"webpack-dev-server": "^2.9.4"
+	}
+}

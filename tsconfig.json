@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./wp-content/themes/boilerplate/lib/js/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true
+  }
+}
