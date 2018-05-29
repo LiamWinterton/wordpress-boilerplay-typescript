@@ -1,28 +1,30 @@
+var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var extractPlugin = new ExtractTextPlugin({
     filename: 'stylesheet.css'
 });
 
 module.exports = {
-    entry: "./wp-content/themes/boilerplate/lib/js/index.ts",
+    entry: ["babel-polyfill", "./wp-content/themes/boilerplate/lib/js/index.js"],
     devtool: 'inline-source-map',
     output: {
         path: path.resolve('./wp-content/themes/boilerplate/'),
         filename: 'bundle.js',
         publicPath: "/sites/wordpress-boilerplate/"
     },
-    resolve: {
-        extensions: ['.tsx', '.ts', '.js']
-    },
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.js$/,
                 use: [
                     {
-                        loader: 'ts-loader',
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['babel-preset-env']
+                        }
                     }
                 ]
             },
@@ -36,19 +38,19 @@ module.exports = {
                         {
                             loader: 'postcss-loader',
                             options: {
-                                sourceMap: true
+                                sourceMap: false
                             }
                         },
                         {
                             loader: 'resolve-url-loader',
                             options: {
-                                sourceMap: true
+                                sourceMap: false
                             }
                         }, 
                         {
                             loader: 'sass-loader',
                             options: {
-                                sourceMap: true
+                                sourceMap: false
                             }
                         }
                     ]
@@ -69,6 +71,10 @@ module.exports = {
         ]
     },
     plugins: [
-        extractPlugin
+        extractPlugin,
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+        new UglifyJsPlugin({
+            test: /\.js($|\?)/i
+        })
     ]
 };

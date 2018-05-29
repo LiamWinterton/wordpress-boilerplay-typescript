@@ -9,5 +9,10 @@
 </head>
 <body <?php body_class(); ?>>
     <header>
-        <?php wp_nav_menu( array( 'menu' => 'Header menu', 'container' => 'nav' ) ); ?>
+        <div class="container">
+            <div id="logo">
+                <a href="<?php echo get_site_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri() . '/lib/images/logo.png'; ?>" alt="prefix" /></a>
+            </div>
+            <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'container' => 'nav' ) ); ?>
+        </div>
     </header>

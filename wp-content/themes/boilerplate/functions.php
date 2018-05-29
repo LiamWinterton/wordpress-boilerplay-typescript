@@ -22,7 +22,7 @@ function prefix_enqueue_styles() {
  */
 function prefix_enqueue_scripts() {
     if(defined('WP_LOCALHOST')) {
-        wp_enqueue_script( 'prefix', 'http://localhost:8080/sites/wordpress-boilerplate/bundle.js' );
+        wp_enqueue_script( 'prefix', 'http://localhost:8080/sites/wordpress-boilerplate/bundle.js', array( 'jquery' ) );
     } else {
         wp_enqueue_script( 'prefix', get_stylesheet_directory_uri() . '/bundle.js', array( 'jquery' ) );
     }
@@ -31,14 +31,26 @@ add_action( 'wp_enqueue_scripts', 'prefix_enqueue_styles' );
 add_action( 'wp_enqueue_scripts', 'prefix_enqueue_scripts' );
 
 /**
+ * Registers an array of theme supports
+ * 
+ * @return void
+ */
+function prefix_theme_support( $features ) {
+    foreach( $features as $key => $feature ) {
+        add_theme_support( $feature );
+    }
+}
+prefix_theme_support( array( 'post-thumbnails' ) );
+
+/**
  * Add custom menus in the admin
  *
  * @return void
  */
 function prefix_custom_menus() {
     register_nav_menus(array(
-        'Header menu' => __( 'Header menu' ),
-        'Footer menu' => __( 'Footer menu' ),
+        'header-menu' => 'Header Menu',
+        'footer-menu' => 'Footer Menu',
     ));
 }
 add_action( 'init', 'prefix_custom_menus' );

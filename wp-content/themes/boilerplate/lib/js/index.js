@@ -1,6 +1,6 @@
 import "../css/stylesheet.sass"
 
-function print_text(sometext: string) {
+function print_text(sometext) {
     console.log(sometext)
 }
 

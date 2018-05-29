@@ -1,8 +1,10 @@
 <footer>
-    <section><?php wp_nav_menu( array( 'menu' => 'Footer menu', 'container' => 'nav' ) ); ?></section>
-    <section><?php dynamic_sidebar( 'footer-section-2' ) ?></section>
-    <section><?php dynamic_sidebar( 'footer-section-3' ) ?></section>
-    <section><?php dynamic_sidebar( 'footer-section-4' ) ?></section>
+    <div class="container">
+    <div class="footer-section"><?php wp_nav_menu( array( 'theme_location' => 'footer-menu', 'container' => 'nav' ) ); ?></div>
+        <div class="footer-section"><?php dynamic_sidebar( 'footer-section-2' ) ?></div>
+        <div class="footer-section"><?php dynamic_sidebar( 'footer-section-3' ) ?></div>
+        <div class="footer-section"><?php dynamic_sidebar( 'footer-section-4' ) ?></div>
+    </div>
 </footer>
 
 <?php wp_footer(); ?>
