@@ -9,11 +9,11 @@ var extractPlugin = new ExtractTextPlugin({
 
 module.exports = {
     entry: ["babel-polyfill", "./wp-content/themes/boilerplate/lib/js/index.js"],
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-source-map',
     output: {
         path: path.resolve('./wp-content/themes/boilerplate/'),
         filename: 'bundle.js',
-        publicPath: "/sites/wordpress-boilerplate/"
+        publicPath: "/"
     },
     module: {
         rules: [
@@ -50,7 +50,8 @@ module.exports = {
                         {
                             loader: 'sass-loader',
                             options: {
-                                sourceMap: false
+                                sourceMap: true,
+                                includePaths: ['node_modules']
                             }
                         }
                     ]
@@ -73,8 +74,20 @@ module.exports = {
     plugins: [
         extractPlugin,
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
-        new UglifyJsPlugin({
-            test: /\.js($|\?)/i
+        new webpack.optimize.UglifyJsPlugin({
+            test: /\.js($|\?)/i,
+            mangle: true,
+            compress: {
+                warnings: false,
+                pure_getters: true,
+                unsafe: true,
+                unsafe_comps: true,
+                screw_ie8: true
+            },
+            output: {
+                comments: false,
+            },
+            exclude: [/\.min\.js$/gi] // skip pre-minified libs
         })
     ]
 };

@@ -1,7 +1,7 @@
 import "../css/stylesheet.sass"
 
-function print_text(sometext) {
-    console.log(sometext)
-}
+const $ = window.jQuery
 
-print_text("Installation worked!")
+$(document).ready(function() {
+    console.log("Installation worked!")
+})

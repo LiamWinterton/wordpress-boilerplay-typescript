@@ -10,9 +10,10 @@
 <body <?php body_class(); ?>>
     <header>
         <div class="container">
-            <div id="logo">
-                <a href="<?php echo get_site_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri() . '/lib/images/logo.png'; ?>" alt="prefix" /></a>
-            </div>
-            <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'container' => 'nav' ) ); ?>
+            
+            <?php get_template_part( 'lib/templates/global/logo' ); ?>
+
+            <?php get_template_part( 'lib/templates/menus/header' ); ?>
+
         </div>
     </header>
