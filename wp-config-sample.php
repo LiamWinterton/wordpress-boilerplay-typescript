@@ -94,5 +94,5 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 
 if(defined('WP_LOCALHOST')) {
-	require_once(ABSPATH . 'kint.php');
+	require_once(ABSPATH . 'kint.phar');
 }

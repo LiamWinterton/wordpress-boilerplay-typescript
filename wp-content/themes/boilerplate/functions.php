@@ -43,6 +43,34 @@ add_action( 'wp_enqueue_scripts', 'prefix_enqueue_styles' );
 add_action( 'wp_enqueue_scripts', 'prefix_enqueue_scripts' );
 
 /**
+ * Add Defer tag to scripts based on script id
+ */
+function prefix_add_defer_to_scripts( $tag, $handle ) {
+    $handles = array();
+
+    if(in_array( $handle, $handles )) {
+        return str_replace( ' src', ' defer="defer" src', $tag );
+    }
+
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'prefix_add_defer_to_scripts', 10, 2 );
+
+/**
+ * Add Async tag to scripts based on script id
+ */
+function prefix_add_async_to_scripts( $tag, $handle ) {
+    $handles = array();
+
+    if(in_array( $handle, $handles )) {
+        return str_replace( ' src', ' async="async" src', $tag );
+    }
+
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'prefix_add_async_to_scripts', 10, 2 );
+
+/**
  * Add custom menus in the admin
  *
  * @return void
@@ -83,6 +111,75 @@ function prefix_excerpt_trail( $more ) {
 }
 add_filter('excerpt_more', 'prefix_excerpt_trail');
 
+function prefix_acf_options_page() {
+	if(function_exists( 'acf_add_options_page' )) {
+		// Generic Settings
+		$generic = acf_add_options_page(array(
+			'page_title' 	=> 'General Settings',
+			'menu_title' 	=> 'Theme Settings',
+			'redirect' 		=> false
+		));
+
+		if($generic) {
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Header',
+				'menu_title' 	=> 'Header',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'header',
+				'post_id'     => 'header'
+			));
+
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Footer',
+				'menu_title' 	=> 'Footer',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'footer',
+				'post_id'     => 'footer'
+			));
+
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Blog',
+				'menu_title' 	=> 'Blog',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'blog',
+				'post_id'     => 'blog'
+			));
+			
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Social Links',
+				'menu_title' 	=> 'Social Links',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'social-links',
+				'post_id'     => 'social-links'
+			));
+
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Mailing Lists',
+				'menu_title' 	=> 'Mailing Lists',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'mailing-lists',
+				'post_id'     => 'mailing-lists'
+			));
+			
+			// add sub page
+			acf_add_options_sub_page(array(
+				'page_title' 	=> 'Ratings',
+				'menu_title' 	=> 'Ratings',
+				'parent_slug' 	=> $generic['menu_slug'],
+				'menu_slug'     => 'ratings',
+				'post_id'     => 'ratings'
+			));
+		}
+	}
+}
+
+prefix_acf_options_page();
+
 // =============================================================================================================================================
 // =============================================================================================================================================
 // =============================================================================================================================================
@@ -100,6 +197,22 @@ function crave_remove_script_version( $src ) {
 } 
 add_filter( 'script_loader_src', 'crave_remove_script_version', 15, 1 );
 add_filter( 'style_loader_src', 'crave_remove_script_version', 15, 1 );
+
+/**
+ * Outputs pagination for blog / index pages
+ */
+function prefix_pagination() {
+	global $wp_query;
+
+	$big = 999999999; // need an unlikely integer
+
+	echo paginate_links(array(
+		'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+		'format' => '?paged=%#%',
+		'current' => max( 1, get_query_var('paged') ),
+		'total' => $wp_query->max_num_pages
+	));
+}
 
 /**
 * Disable the emoji's
@@ -154,25 +267,6 @@ function crave_remove_jquery_migrate( &$scripts) {
 	}
 }
 add_action( 'wp_default_scripts', 'crave_remove_jquery_migrate' );
-
-/**
-* Function to defer all scripts which are not excluded
-*/
-function crave_js_defer_attr($tag) {
-	if (is_admin()) {
-		return $tag;
-	}
-	// Do not add defer attribute to these scripts
-	$scripts_to_exclude = array('jquery.js'); // add a string of js file e.g. script.js
-
-	foreach($scripts_to_exclude as $exclude_script) {
-		if (true == strpos($tag, $exclude_script ) )
-			return $tag; 
-	}
-	// Defer all remaining scripts not excluded above
-	return str_replace( ' src', ' defer src', $tag );
-}
-add_filter( 'script_loader_tag', 'crave_js_defer_attr', 10);
 
 /**
 * Remove junk from head
