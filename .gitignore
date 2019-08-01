@@ -48,5 +48,6 @@ README.md
 # Dev files
 wp-content/themes/boilerplate/stylesheet.css
 wp-content/themes/boilerplate/bundle.js
+!wp-content/themes/boilerplate/index.php
 wp-content/themes/*/*.css.map
 node_modules
